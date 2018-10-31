@@ -1,4 +1,4 @@
-package io.github.leeseungeun.scan;
+package io.github.leeseungeun.utils;
 
 import java.io.File;
 import java.util.ArrayList;

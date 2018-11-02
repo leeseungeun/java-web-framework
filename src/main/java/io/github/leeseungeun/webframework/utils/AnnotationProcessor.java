@@ -1,5 +1,7 @@
 package io.github.leeseungeun.webframework.utils;
 
+import java.lang.reflect.Field;
+
 import io.github.leeseungeun.webframework.enums.AnnotationType;
 import io.github.leeseungeun.webframework.enums.BeanType;
 
@@ -18,9 +20,21 @@ public class AnnotationProcessor {
 	 * @param annotationClass
 	 * @return 인자의 어노테이션을 해당 클래스가 갖고 있는지에 대한 논리값
 	 */
-	public static boolean hasAnnotation(Class targetClass, Class annotationClass) {
+	public static boolean hasAnnotation(Object target, Class annotationClass) {
 		
-		return targetClass.getAnnotation(annotationClass) != null;
+		boolean result = false;
+		
+		if (target instanceof Class) {
+			
+			result = ((Class) target).getAnnotation(annotationClass) != null;
+		
+		} else if (target instanceof Field) {
+			
+			result = ((Field) target).getAnnotation(annotationClass) != null;
+		
+		}
+		
+		return result;
 	
 	}
 	
@@ -29,10 +43,11 @@ public class AnnotationProcessor {
 	 * 
 	 * @param target
 	 * @param annotationClass
+	 * @return
 	 */
-	public static void processAnnotationType(Object target, Class annotationClass) {
+	public static Object processAnnotationType(Object target, Class annotationClass) {
 		
-		AnnotationType.valueOf(annotationClass.getSimpleName()).process(target);
+		return AnnotationType.valueOf(annotationClass.getSimpleName()).process(target);
 	
 	}
 	

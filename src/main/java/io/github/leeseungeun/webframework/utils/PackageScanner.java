@@ -36,6 +36,10 @@ public class PackageScanner {
 	}
 	
 	// 생성자
+	public PackageScanner() throws ClassNotFoundException {
+		scan("io.github.leeseungeun.webframework.beans");
+	}
+	
 	public PackageScanner(String packageName) throws ClassNotFoundException {
 		scan(packageName);
 	}

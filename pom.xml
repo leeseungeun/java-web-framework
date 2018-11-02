@@ -43,7 +43,7 @@
 			<artifactId>ojdbc6</artifactId>
 			<version>12.1.0.1-atlassian-hosted</version>
 		</dependency>
-		
+
 		<!-- apache dbcp -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -73,5 +73,14 @@
 			<version>1.2.17</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 </project>

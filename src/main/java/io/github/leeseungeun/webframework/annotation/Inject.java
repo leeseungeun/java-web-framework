@@ -1,4 +1,4 @@
-package io.github.leeseungeun.annotation;
+package io.github.leeseungeun.webframework.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

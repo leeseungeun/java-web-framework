@@ -1,4 +1,4 @@
-package io.github.leeseungeun.utils;
+package io.github.leeseungeun.webframework.utils;
 
 public class AnnotationProcessor {
 	

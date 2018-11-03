@@ -59,14 +59,13 @@ public enum AnnotationType {
 			@SuppressWarnings("unchecked")
 			Map<String, Object> data = (Map<String, Object>) object;
 
-			RequestHandler requestHandler = (RequestHandler) data.get(REQUESTMAPPING_REQUESTHANDLER_DATA_NAME);
+			Map<String, Controller> requestMapper = (Map<String, Controller>) data.get(REQUESTMAPPING_REQUESTMAPPER_DATA_NAME);
 			Controller controller = (Controller) data.get(REQUESTMAPPING_CONTROLLER_DATA_NAME);
 			String uri = String.valueOf(data.get(REQUESTMAPPING_URI_DATA_NAME));
 
-			Map<String, Controller> mapper = requestHandler.getRequestMapper();
-			mapper.put(uri, controller);
+			requestMapper.put(uri, controller);
 
-			return requestHandler;
+			return requestMapper;
 		}
 	};
 
@@ -74,7 +73,7 @@ public enum AnnotationType {
 	public static final String INJECT_CLASS_DATA_NAME = "class";
 	public static final String INJECT_BEAN_DATA_NAME = "bean";
 	public static final String INJECT_FIELD_DATA_NAME = "field";
-	public static final String REQUESTMAPPING_REQUESTHANDLER_DATA_NAME = "requestHandler";
+	public static final String REQUESTMAPPING_REQUESTMAPPER_DATA_NAME = "requestHandler";
 	public static final String REQUESTMAPPING_CONTROLLER_DATA_NAME = "controller";
 	public static final String REQUESTMAPPING_URI_DATA_NAME = "uri";
 

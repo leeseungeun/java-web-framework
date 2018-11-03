@@ -1,12 +1,18 @@
 package io.github.leeseungeun.webframework.utils;
 
+import static io.github.leeseungeun.webframework.enums.AnnotationType.INJECT_BEAN_DATA_NAME;
 import static io.github.leeseungeun.webframework.enums.AnnotationType.INJECT_CLASS_DATA_NAME;
 import static io.github.leeseungeun.webframework.enums.AnnotationType.INJECT_FIELD_DATA_NAME;
+import static io.github.leeseungeun.webframework.enums.AnnotationType.REQUESTMAPPING_CONTROLLER_DATA_NAME;
+import static io.github.leeseungeun.webframework.enums.AnnotationType.REQUESTMAPPING_REQUESTMAPPER_DATA_NAME;
+import static io.github.leeseungeun.webframework.enums.AnnotationType.REQUESTMAPPING_URI_DATA_NAME;
 import static io.github.leeseungeun.webframework.utils.AnnotationProcessor.hasAnnotation;
 import static io.github.leeseungeun.webframework.utils.AnnotationProcessor.processAnnotationType;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -100,7 +106,7 @@ public class Initiator {
 					
 					Map<String, Object> data = new HashMap<String, Object>();
 					data.put(INJECT_CLASS_DATA_NAME, classObject);
-					data.put(INJECT_FIELD_DATA_NAME, targetObject);
+					data.put(INJECT_BEAN_DATA_NAME, targetObject);
 					data.put(INJECT_FIELD_DATA_NAME, field);
 					
 					Object beanObject = processAnnotationType(data, Inject.class);
@@ -115,23 +121,36 @@ public class Initiator {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void setControllerMapper(List<Class> classes) {
 		
 		Class targetAnnotation = RequestMapping.class;
-		RequestHandler requestHandler = new RequestHandler();
-		Map<String, Controller> requestMapper = requestHandler.getRequestMapper();
+		
+		requestHandler = (RequestHandler) getBean(RequestHandler.class.getName());
+		Map<String, Controller> requestMapper = new Hashtable<String, Controller>();
 		
 		for (Class clazz : classes) {	
 			
 			if (hasAnnotation(clazz, targetAnnotation)) {
 				
-				Object beanObject = processAnnotationType(clazz, targetAnnotation);
-				assert beanObject != null;
+				Object classObject = getBean(clazz.getName());
+				assert classObject != null;
 				
-				beans.put(clazz.getName(), beanObject);
+				Annotation annotation = clazz.getAnnotation(targetAnnotation);
+				assert annotation != null;
+				String uri = ((RequestMapping) annotation).value();
+				
+				Map<String, Object> data = new HashMap<String, Object>();
+				data.put(REQUESTMAPPING_REQUESTMAPPER_DATA_NAME, requestMapper);
+				data.put(REQUESTMAPPING_CONTROLLER_DATA_NAME, classObject);
+				data.put(REQUESTMAPPING_URI_DATA_NAME, uri);
+				
+				requestMapper = (Map<String, Controller>) processAnnotationType(clazz, targetAnnotation);
+				
 			}
 		}
 		
+		this.requestHandler.setRequestMapper(requestMapper);
 	} 
 	
 }

@@ -1,5 +1,8 @@
 package io.github.leeseungeun.webframework.utils;
 
+import static io.github.leeseungeun.webframework.enums.BeanType.SQLSESSIONFACTORY_SQLSESSIONFACTORY_DATA_KEY;
+import static io.github.leeseungeun.webframework.enums.BeanType.SQLSESSIONFACTORY_CONFIGLOCATION_DATA_KEY;
+import static io.github.leeseungeun.webframework.enums.BeanType.SQLSESSIONFACTORY_ENVIRONMENT_DATA_KEY;
 import static io.github.leeseungeun.webframework.enums.AnnotationType.INJECT_BEAN_DATA_KEY;
 import static io.github.leeseungeun.webframework.enums.AnnotationType.INJECT_CLASS_DATA_KEY;
 import static io.github.leeseungeun.webframework.enums.AnnotationType.INJECT_FIELD_DATA_KEY;
@@ -9,7 +12,6 @@ import static io.github.leeseungeun.webframework.enums.AnnotationType.REQUESTMAP
 import static io.github.leeseungeun.webframework.utils.AnnotationProcessor.hasAnnotation;
 import static io.github.leeseungeun.webframework.utils.AnnotationProcessor.processAnnotationType;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
@@ -72,11 +74,13 @@ public class Initiator {
 	}
 
 	// 생성자
-	public Initiator(URL location, String projectPackage) {
+	public Initiator(URL location, String projectPackage, String dataConfigLocation, String dataEnvironment) {
 		
 		try {
-			
+			// 필요한 변수를 초기화
 			beans = new HashMap<String, Object>();
+			this.dataConfigLocation = dataConfigLocation;
+			this.dataEnvironment = dataEnvironment;
 			
 			// annotation을 검색할 전체 클래스를 가져옴
 			List<Class> classList = new ArrayList<Class>();
@@ -190,9 +194,11 @@ public class Initiator {
 	private Object buildSqlSessionFactoryBuilder(BeanType sqlSessionFactoryType, Object sqlSessionFactory, String configLocation, String environment) {
 		
 		Map<String, Object> data = new HashMap<String, Object>();
-		data.put(key, value);
+		data.put(SQLSESSIONFACTORY_SQLSESSIONFACTORY_DATA_KEY, sqlSessionFactory);
+		data.put(SQLSESSIONFACTORY_CONFIGLOCATION_DATA_KEY, dataConfigLocation);
+		data.put(SQLSESSIONFACTORY_ENVIRONMENT_DATA_KEY, dataEnvironment);
 		
-		sqlSessionFactoryType.process(data);
+		return sqlSessionFactoryType.process(data);
 	}
 	
 }

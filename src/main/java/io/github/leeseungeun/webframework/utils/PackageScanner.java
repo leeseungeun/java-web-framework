@@ -1,6 +1,7 @@
 package io.github.leeseungeun.webframework.utils;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,10 +19,6 @@ public class PackageScanner {
 												? "\\" + File.separator 
 												: File.separator;
 	private static final String URL_PROTOCOL = "file" + File.separator;
-	private static final String LOCATION = PackageScanner.class.getProtectionDomain().getCodeSource().getLocation()
-										.toString()
-										.replace(File.separator, SEPERATOR_STRING)
-										.substring(URL_PROTOCOL.length());
 	
 	// 인스턴스 변수
 	private List<Class> classes = new ArrayList<Class>();
@@ -36,12 +33,11 @@ public class PackageScanner {
 	}
 	
 	// 생성자
-	public PackageScanner() throws ClassNotFoundException {
-		scan("io.github.leeseungeun.webframework.beans");
-	}
+	public PackageScanner(URL url, String packageName) throws ClassNotFoundException {
+		
+		String location = urlToString(url); 
+		scan(location, packageName);
 	
-	public PackageScanner(String packageName) throws ClassNotFoundException {
-		scan(packageName);
 	}
 	
 	/**
@@ -55,21 +51,32 @@ public class PackageScanner {
 	}
 	
 	/**
+	 * 실행 위치를 받아 문자열로 전환해주는 메소드
+	 * 
+	 * @param url
+	 * @return 패키지 스캔이 가능하도록 문자열로 전환된 URL을 반환
+	 */
+	private String urlToString(URL url) {
+		return url.toString()
+			.replace(File.separator, SEPERATOR_STRING)
+			.substring(URL_PROTOCOL.length());
+	}
+	
+	/**
 	 * 주어진 패키지명에서 클래스를 스캔하는 메소드
 	 * 
 	 * @param packageName
 	 * @throws ClassNotFoundException 
 	 */
-	private void scan(String packageName) throws ClassNotFoundException {
+	private void scan(String location, String packageName) throws ClassNotFoundException {
 		
 		// 패키지명이 유효하지 않을 경우 Exception 발생
 		assert isValidPackageName(packageName);
 		
 		// 패키지의 물리적 위치를 변수로 선언
-		String packagePath = LOCATION + packageName.replace(".", SEPERATOR_STRING);
+		String packagePath = location + packageName.replace(".", SEPERATOR_STRING);
 		// 패키지 내 클래스를 찾기 위해서 File 객체 생성
 		File packageDirectory = new File(packagePath);
-
 		// 클래스를 추가하는 메소드 호출
 		addClasses(packageDirectory);
 	}
@@ -82,7 +89,7 @@ public class PackageScanner {
 	private void addClasses(File directory) throws ClassNotFoundException{
 		// 디렉토리에 속하는 모든 파일 객체를 가져옴
 		File[] files = directory.listFiles();
-
+		
 		for (File file : files) {
 
 			String fileName = file.getName();
@@ -117,7 +124,7 @@ public class PackageScanner {
 		String result = "";
 		
 		// 경로 구분자를 기준으로 문자열 분리
-		String[] tonizedPath = path.split(File.separator);
+		String[] tonizedPath = path.split(SEPERATOR_STRING);
 		// 주어진 배열에서 값 classes가 몇 번째 인덱스에 위치하는지 변수로 선언
 		int indexBeforePackage = Arrays.asList(tonizedPath).indexOf("classes");
 		// 향상된 for문에서 이용할 index 변수 선언

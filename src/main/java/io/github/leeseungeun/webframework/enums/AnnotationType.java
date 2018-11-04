@@ -38,10 +38,10 @@ public enum AnnotationType {
 			@SuppressWarnings("unchecked")
 			Map<String, Object> data = (Map<String, Object>) object;
 
-			Object classObject = data.get(INJECT_CLASS_DATA_NAME);
-			Object targetObject = data.get(INJECT_BEAN_DATA_NAME);
+			Object classObject = data.get(INJECT_CLASS_DATA_KEY);
+			Object targetObject = data.get(INJECT_BEAN_DATA_KEY);
 
-			Field targetField = (Field) data.get(INJECT_FIELD_DATA_NAME);
+			Field targetField = (Field) data.get(INJECT_FIELD_DATA_KEY);
 			targetField.setAccessible(true);
 			try {
 				targetField.set(classObject, targetObject);
@@ -59,9 +59,9 @@ public enum AnnotationType {
 			@SuppressWarnings("unchecked")
 			Map<String, Object> data = (Map<String, Object>) object;
 
-			Map<String, Controller> requestMapper = (Map<String, Controller>) data.get(REQUESTMAPPING_REQUESTMAPPER_DATA_NAME);
-			Controller controller = (Controller) data.get(REQUESTMAPPING_CONTROLLER_DATA_NAME);
-			String uri = String.valueOf(data.get(REQUESTMAPPING_URI_DATA_NAME));
+			Map<String, Controller> requestMapper = (Map<String, Controller>) data.get(REQUESTMAPPING_REQUESTMAPPER_DATA_KEY);
+			Controller controller = (Controller) data.get(REQUESTMAPPING_CONTROLLER_DATA_KEY);
+			String uri = String.valueOf(data.get(REQUESTMAPPING_URI_DATA_KEY));
 
 			requestMapper.put(uri, controller);
 
@@ -70,12 +70,12 @@ public enum AnnotationType {
 	};
 
 	// 상수 선언
-	public static final String INJECT_CLASS_DATA_NAME = "class";
-	public static final String INJECT_BEAN_DATA_NAME = "bean";
-	public static final String INJECT_FIELD_DATA_NAME = "field";
-	public static final String REQUESTMAPPING_REQUESTMAPPER_DATA_NAME = "requestHandler";
-	public static final String REQUESTMAPPING_CONTROLLER_DATA_NAME = "controller";
-	public static final String REQUESTMAPPING_URI_DATA_NAME = "uri";
+	public static final String INJECT_CLASS_DATA_KEY = "class";
+	public static final String INJECT_BEAN_DATA_KEY = "bean";
+	public static final String INJECT_FIELD_DATA_KEY = "field";
+	public static final String REQUESTMAPPING_REQUESTMAPPER_DATA_KEY = "requestHandler";
+	public static final String REQUESTMAPPING_CONTROLLER_DATA_KEY = "controller";
+	public static final String REQUESTMAPPING_URI_DATA_KEY = "uri";
 
 	public abstract Object process(Object object);
 

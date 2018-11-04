@@ -6,7 +6,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import io.github.leeseungeun.webframework.enums.BeanType;
-import io.github.leeseungeun.webframework.utils.AnnotationType;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

@@ -40,7 +40,7 @@ public enum AnnotationType {
 
 			Object classObject = data.get(INJECT_CLASS_DATA_KEY);
 			Object targetObject = data.get(INJECT_BEAN_DATA_KEY);
-
+			
 			Field targetField = (Field) data.get(INJECT_FIELD_DATA_KEY);
 			targetField.setAccessible(true);
 			try {

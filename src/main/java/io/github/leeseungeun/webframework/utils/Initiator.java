@@ -37,8 +37,8 @@ import io.github.leeseungeun.webframework.annotations.Inject;
 import io.github.leeseungeun.webframework.annotations.RequestMapping;
 import io.github.leeseungeun.webframework.beans.RequestHandler;
 import io.github.leeseungeun.webframework.beans.SqlSessionFactory;
+import io.github.leeseungeun.webframework.controller.Controller;
 import io.github.leeseungeun.webframework.enums.BeanType;
-import io.github.leeseungeun.webframework.interfaces.Controller;
 
 public class Initiator {
 
@@ -263,7 +263,7 @@ public class Initiator {
 				data.put(REQUESTMAPPING_CONTROLLER_DATA_KEY, classObject);
 				data.put(REQUESTMAPPING_URI_DATA_KEY, uri);
 				
-				requestMapper = (Map<String, Controller>) processAnnotationType(clazz, targetAnnotation);
+				requestMapper = (Map<String, Controller>) processAnnotationType(data, targetAnnotation);
 				
 			}
 		}

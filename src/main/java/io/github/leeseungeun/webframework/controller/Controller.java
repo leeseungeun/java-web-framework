@@ -1,4 +1,4 @@
-package io.github.leeseungeun.webframework.interfaces;
+package io.github.leeseungeun.webframework.controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

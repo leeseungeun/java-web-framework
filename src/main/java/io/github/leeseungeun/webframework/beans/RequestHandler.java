@@ -3,8 +3,8 @@ package io.github.leeseungeun.webframework.beans;
 import java.util.Map;
 
 import io.github.leeseungeun.webframework.annotations.Bean;
+import io.github.leeseungeun.webframework.controller.Controller;
 import io.github.leeseungeun.webframework.enums.BeanType;
-import io.github.leeseungeun.webframework.interfaces.Controller;
 
 /**
  * 

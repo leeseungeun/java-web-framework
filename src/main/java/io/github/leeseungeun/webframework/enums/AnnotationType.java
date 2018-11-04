@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 import io.github.leeseungeun.webframework.beans.RequestHandler;
-import io.github.leeseungeun.webframework.interfaces.Controller;
+import io.github.leeseungeun.webframework.controller.Controller;
 
 public enum AnnotationType {
 

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import io.github.leeseungeun.webframework.annotations.RequestMapping;
 import io.github.leeseungeun.webframework.beans.RequestHandler;
+import io.github.leeseungeun.webframework.utils.Jsonifier;
 
 public class FrontControllerServlet extends HttpServlet{
 	
@@ -21,8 +22,8 @@ public class FrontControllerServlet extends HttpServlet{
 	@SuppressWarnings("unchecked")
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		beans = (Map<String, Object>) getServletContext().getAttribute("beans");
-		requestHandler = (RequestHandler) getServletContext().getAttribute("requestHandler");
+		beans = (Map<String, Object>) config.getServletContext().getAttribute("beans");
+		requestHandler = (RequestHandler) config.getServletContext().getAttribute("requestHandler");
 	}
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -44,7 +45,16 @@ public class FrontControllerServlet extends HttpServlet{
 		Controller controller = (Controller) requestMapper.get(uri);
 		
 		Object model = controller.handleRequest(request, response);
+		String result = Jsonifier.jsonify(model);
 		
+		response.setContentType("application/json; charset=utf-8");
+		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.println(result);
+		} finally {
+			if (out != null) out.close();
+		}
 		
 	}
 }
